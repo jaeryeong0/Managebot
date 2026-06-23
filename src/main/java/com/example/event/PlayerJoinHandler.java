@@ -27,6 +27,9 @@ public class PlayerJoinHandler {
 
         List<BotData> bots = storage.getBots();
         for (BotData bot : bots) {
+            // Skip bots that are already connected to avoid duplicate spawning
+            if (server.getPlayerList().getPlayerByName(bot.name) != null) continue;
+
             String cmd = String.format("player %s spawn at %.4f %.4f %.4f", bot.name, bot.x, bot.y, bot.z);
             server.getCommands().performPrefixedCommand(
                 server.createCommandSourceStack().withPermission(4),
