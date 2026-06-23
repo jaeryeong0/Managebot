@@ -4,6 +4,7 @@ import com.example.command.ManageBotCommand;
 import com.example.data.BotStorage;
 import com.example.data.ManageBotConfig;
 import com.example.event.PlayerDisconnectHandler;
+import com.example.event.PlayerJoinHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -21,6 +22,7 @@ public class ManageBotMod implements ModInitializer {
 
         CommandRegistrationCallback.EVENT.register(ManageBotCommand::register);
         ServerPlayConnectionEvents.DISCONNECT.register(PlayerDisconnectHandler::onDisconnect);
+        ServerPlayConnectionEvents.JOIN.register(PlayerJoinHandler::onJoin);
 
         LOGGER.info("ManageBot initialized.");
     }

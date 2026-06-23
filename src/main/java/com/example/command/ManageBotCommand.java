@@ -48,7 +48,10 @@ public class ManageBotCommand {
                             .executes(ManageBotCommand::executeRuleSleepWithoutBot)))
                     .then(Commands.literal("kick_bots_if_no_player")
                         .then(Commands.argument("value", BoolArgumentType.bool())
-                            .executes(ManageBotCommand::executeRuleKickBotsIfNoPlayer))))
+                            .executes(ManageBotCommand::executeRuleKickBotsIfNoPlayer)))
+                    .then(Commands.literal("spawn_bots_if_first_player_join")
+                        .then(Commands.argument("value", BoolArgumentType.bool())
+                            .executes(ManageBotCommand::executeRuleSpawnBotsIfFirstPlayerJoin))))
         );
     }
 
@@ -164,6 +167,15 @@ public class ManageBotCommand {
         ManageBotConfig.getInstance().setKickBotsIfNoPlayer(value);
         ctx.getSource().sendSuccess(
             () -> Component.literal("Rule set: kick_bots_if_no_player = " + value), false
+        );
+        return 1;
+    }
+
+    private static int executeRuleSpawnBotsIfFirstPlayerJoin(CommandContext<CommandSourceStack> ctx) {
+        boolean value = BoolArgumentType.getBool(ctx, "value");
+        ManageBotConfig.getInstance().setSpawnBotsIfFirstPlayerJoin(value);
+        ctx.getSource().sendSuccess(
+            () -> Component.literal("Rule set: spawn_bots_if_first_player_join = " + value), false
         );
         return 1;
     }

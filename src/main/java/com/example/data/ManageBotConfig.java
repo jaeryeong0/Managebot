@@ -20,6 +20,7 @@ public class ManageBotConfig {
 
     private boolean sleepWithoutBot = false;
     private boolean kickBotsIfNoPlayer = false;
+    private boolean spawnBotsIfFirstPlayerJoin = false;
 
     private ManageBotConfig() {}
 
@@ -39,6 +40,8 @@ public class ManageBotConfig {
                     sleepWithoutBot = obj.get("sleep_without_bot").getAsBoolean();
                 if (obj.has("kick_bots_if_no_player"))
                     kickBotsIfNoPlayer = obj.get("kick_bots_if_no_player").getAsBoolean();
+                if (obj.has("spawn_bots_if_first_player_join"))
+                    spawnBotsIfFirstPlayerJoin = obj.get("spawn_bots_if_first_player_join").getAsBoolean();
             }
         } catch (IOException e) {
             LOGGER.error("Failed to load config", e);
@@ -49,6 +52,7 @@ public class ManageBotConfig {
         JsonObject obj = new JsonObject();
         obj.addProperty("sleep_without_bot", sleepWithoutBot);
         obj.addProperty("kick_bots_if_no_player", kickBotsIfNoPlayer);
+        obj.addProperty("spawn_bots_if_first_player_join", spawnBotsIfFirstPlayerJoin);
         try (Writer writer = new FileWriter(filePath.toFile())) {
             GSON.toJson(obj, writer);
         } catch (IOException e) {
@@ -61,4 +65,7 @@ public class ManageBotConfig {
 
     public boolean isKickBotsIfNoPlayer() { return kickBotsIfNoPlayer; }
     public void setKickBotsIfNoPlayer(boolean value) { kickBotsIfNoPlayer = value; save(); }
+
+    public boolean isSpawnBotsIfFirstPlayerJoin() { return spawnBotsIfFirstPlayerJoin; }
+    public void setSpawnBotsIfFirstPlayerJoin(boolean value) { spawnBotsIfFirstPlayerJoin = value; save(); }
 }
