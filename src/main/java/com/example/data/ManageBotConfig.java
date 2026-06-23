@@ -18,7 +18,7 @@ public class ManageBotConfig {
 
     private final Path filePath = FabricLoader.getInstance().getConfigDir().resolve("managebot_config.json");
 
-    private boolean sleepWithoutBot = false;
+    private boolean sleepWithoutBot = true;
     private boolean kickBotsIfNoPlayer = false;
     private boolean spawnBotsIfFirstPlayerJoin = false;
 
