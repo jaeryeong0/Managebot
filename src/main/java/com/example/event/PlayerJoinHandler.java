@@ -6,6 +6,7 @@ import com.example.data.ManageBotConfig;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.server.permissions.LevelBasedPermissionSet;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class PlayerJoinHandler {
         // Count real players currently connected (excluding bots).
         // If exactly 1 real player exists, this is the 0→1 transition.
         long realPlayerCount = server.getPlayerList().getPlayers().stream()
-            .filter(p -> !storage.isBotName(p.getGameProfile().getName()))
+            .filter(p -> !storage.isBotName(p.getGameProfile().name()))
             .count();
 
         if (realPlayerCount != 1) return;
@@ -32,7 +33,7 @@ public class PlayerJoinHandler {
 
             String cmd = String.format("player %s spawn at %.4f %.4f %.4f", bot.name, bot.x, bot.y, bot.z);
             server.getCommands().performPrefixedCommand(
-                server.createCommandSourceStack().withPermission(4),
+                server.createCommandSourceStack().withPermission(LevelBasedPermissionSet.OWNER),
                 cmd
             );
         }

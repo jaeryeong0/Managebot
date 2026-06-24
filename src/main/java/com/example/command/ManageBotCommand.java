@@ -13,6 +13,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.permissions.LevelBasedPermissionSet;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class ManageBotCommand {
                                 Commands.CommandSelection environment) {
         dispatcher.register(
             Commands.literal("managebot")
-                .requires(src -> src.hasPermission(2))
+                .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.literal("add")
                     .then(Commands.argument("name", StringArgumentType.word())
                         .then(Commands.argument("x", DoubleArgumentType.doubleArg())
@@ -146,7 +147,7 @@ public class ManageBotCommand {
         }
         MinecraftServer server = ctx.getSource().getServer();
         server.getCommands().performPrefixedCommand(
-            server.createCommandSourceStack().withPermission(4),
+            server.createCommandSourceStack().withPermission(LevelBasedPermissionSet.OWNER),
             "player " + bot.name + " kill"
         );
         ctx.getSource().sendSuccess(() -> Component.literal("Kicking bot: " + bot.name), false);
@@ -192,7 +193,7 @@ public class ManageBotCommand {
     private static void spawnBot(MinecraftServer server, BotData bot) {
         String cmd = String.format("player %s spawn at %.4f %.4f %.4f", bot.name, bot.x, bot.y, bot.z);
         server.getCommands().performPrefixedCommand(
-            server.createCommandSourceStack().withPermission(4),
+            server.createCommandSourceStack().withPermission(LevelBasedPermissionSet.OWNER),
             cmd
         );
     }
